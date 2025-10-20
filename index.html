@@ -1,378 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ojiiis.github.io/oLoader"></script>
+    <title>oLoader: Dynamic Content Assembler</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px; }
+        h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; color: #333; }
+        h2 { color: #007bff; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        h3 { color: #555; margin-top: 20px; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+        pre { background-color: #f4f4f4; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f8f8f8; }
+        .feature-list li { margin-bottom: 8px; }
+        hr { border: 0; border-top: 1px solid #ccc; margin: 20px 0; }
+    </style>
 </head>
-
 <body>
 
+    <h1>🟢 oLoader: Dynamic Content Assembler</h1>
 
-    <section id="hero" class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <h2 class="hero-title"></h2>
-                <p class="hero-subtitle"></p>
-                <div class="cta-group">
-                    <a href="#getting-started" class="btn-primary">Get Started</a>
-                    <a href="#api" class="btn-secondary">View API</a>
-                </div>
-            </div>
-            <div class="code-preview">
-                <pre class="skeleton-code">
-&lt;script src="https://ojiiis.github.io/oLoader">&lt;/script&gt;
+    <p><strong>oLoader</strong> is a lightweight, zero-dependency JavaScript module designed to manage client-side content assembly, dependency ordering, and data hydration in a static, runtime environment. It delivers <strong>modern application structure without modern application overhead</strong>. It’s perfect for adding dynamic, component-based power to simple HTML files without needing a complex build step.</p>
 
-&lt;script&gt;
-let loader =  oLoader();
-loader.head('/static/meta-data.html','e');
-loader.body('/static/navigation.html','b');
-loader.body('/static/footer.html','e');
-loader.load(()=>console.log('Page is fully rendered and active.'));
-&lt;/script&gt;
-                </pre>
-            </div>
-        </div>
-    </section>
+    <hr>
 
-    <main id="documentation">
-        <div class="container main-grid">
+    <h2>💡 Features</h2>
+    <ul class="feature-list">
+        <li><strong>Runtime Assembly:</strong> Asynchronously fetches and inserts HTML, CSS, and Scripts into the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>.</li>
+        <li><strong>Guaranteed Script Order:</strong> Scripts are executed sequentially, ensuring dependencies load correctly.</li>
+        <li><strong>Dynamic UI Management:</strong> The <strong><code>element.put()</code></strong> method enables <strong>view swapping</strong> and seamless content replacement <em>after</em> initial assembly.</li>
+        <li><strong>Imperative Form Handling:</strong> The <strong><code>element.ifsubmit()</code></strong> method simplifies form submission by preventing default behavior and parsing data into a clean object.</li>
+        <li><strong>Clean Element Selection:</strong> The global <strong><code>oG()</code></strong> utility simplifies DOM querying, making code cleaner and immediately readable.</li>
+        <li><strong>Global Data Hydration:</strong> The integrated <code>window.paint</code> utility provides fast, attribute-based templating.</li>
+        <li><strong>Simple Lifecycle:</strong> Uses a single <code>.load(callback)</code> method for clean initialization and cleanup.</li>
+    </ul>
 
-            <aside id="sidebar">
-                <nav>
-                    <h3>Documentation</h3>
-                    <a href="#getting-started">Getting Started</a>
-                    <a href="#api">API Reference</a>
-                    <a href="#usage-patterns">Usage Patterns</a>
-                    <a href="#examples">Complex Examples</a>
-                    <a href="#releases">Releases & Changelog</a>
-                    <a href="#faq">FAQ</a>
-                </nav>
-            </aside>
+    <hr>
 
-            <section id="content-area">
-                <section id="getting-started" class="doc-section">
-                    <h3>Getting Started</h3>
+    <h2>🚀 Getting Started</h2>
 
-                    <h4>Installation</h4>
-                    <p>Getting **oLoader** into your project is simple and requires <strong>no package managers or build
-                            tools</strong>.</p>
-                    <ol>
-                        <li><strong>Download:</strong> Grab the latest <code>oLoader.js</code> file from the <a
-                                href="https://github.com/ojiiis/oLoader">GitHub Releases page</a>.</li>
-                        <li><strong>Include:</strong> Add the script tag to your main HTML file. Ensure your
-                            application's setup file runs <strong>after</strong> <code>oLoader.js</code>.</li>
-                    </ol>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-&lt;!DOCTYPE html&gt;
+    <h3>1. Installation</h3>
+    <p>Download the latest <code>oloader.js</code> and include it, followed by your application logic, in your main HTML file. <strong>oLoader</strong> is ready immediately on page load.</p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
-    &lt;!-- 1. The oLoader engine must load first --&gt;
-    &lt;script src="path/to/oLoader.js"&gt;&lt;/script&gt;
-    &lt;!-- 2. Your application assembly logic runs next --&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;oLoader Application&lt;/title&gt;
+    &lt;!-- Include the oLoader core module first --&gt;
+    &lt;script src="path/to/oloader.js"&gt;&lt;/script&gt;
+    
+    &lt;!-- Include your main application logic --&gt;
     &lt;script src="path/to/app.js"&gt;&lt;/script&gt;
 &lt;/head&gt;
-&lt;body&gt;...&lt;/body&gt;
-&lt;/html&gt;</pre>
-                    </div>
+&lt;body&gt;
+    &lt;div id="app-container"&gt;
+        &lt;!-- Initial content or loading screen here --&gt;
+        &lt;p&gt;Loading application structure...&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
 
-                    <h4>The Core: The <code>oLoader()</code> Instance</h4>
-                    <p>The entire content assembly process begins by calling the <code>oLoader()</code> constructor.
-                        This call initializes a new, independent queue for all assets and returns the main assembly
-                        object.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// Initialize a new loading queue
-const app = oLoader(); 
+    <h3>2. Basic Usage and The <code>oG()</code> Selector</h3>
+    <p>Use the <code>oLoader()</code> constructor to create an assembly instance, queue your files, and call <code>.load()</code> to execute the process. Use the <strong><code>oG()</code></strong> utility to simplify element selection and immediately apply logic.</p>
 
-// The 'app' object now holds methods like .head(), .body(), .script(), and .load().
-</pre>
-                    </div>
+    <pre><code>// app.js
 
-                    <h4>Basic Workflow: Queue and Load</h4>
-                    <p>The **oLoader** process involves two steps: **Queue Content** and **Execute** using the final
-                        <code>.load(callback)</code> method to run code once everything is ready.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// 1. Queue Content
+// 1. Initialize the assembly core
 const app = oLoader();
-app.head('/assets/base.css', 'e');    // Add a stylesheet
-app.body('/components/navbar.html', 'b'); // Add a navigation component
-app.script('/app/main-logic.js');     // Add an essential script
 
-// 2. Execute and define final actions
+// 2. Queue content and dependencies
+app.head('/assets/styles.css', 'e');          // Load styles
+app.body('/components/main-view.html', 'e');  // Load component structure
+app.script('/app/router.js');                 // Load logic
+
+// 3. Execute assembly and run final initialization
 app.load(() => {
-    // This runs only when all assets are fully loaded and scripts are executed.
-    console.log('Page assembly complete and ready.'); 
-    // Now call paint.obj() or start a router.
-});</pre>
-                    </div>
-                </section>
-
-                <section id="api" class="doc-section">
-                    <h3>API Reference: Assembly & Lifecycle</h3>
-                    <p>The <code>oLoader()</code> constructor returns an object with core assembly methods that manage
-                        content insertion and execution order.</p>
-
-                    <h4>Core Assembly Methods</h4>
-
-                    <p>All content methods accept a <code>string</code> which can be a **URL/Path** or **Raw HTML
-                        String**.</p>
-
-                    <h5 id="api-head"><code>.head(file, position)</code></h5>
-                    <p>Queues content (metadata, stylesheets, fonts) for insertion into the document's
-                        <code>&lt;head&gt;</code> element.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// Load critical meta tags before any existing content
-app.head('/assets/critical-meta.html', 'b'); // 'b' for beginning/prepend
-app.head('&lt;link rel="stylesheet" href="main.css"&gt;', 'e'); // 'e' for end/append</pre>
-                    </div>
-
-                    <h5 id="api-body"><code>.body(file, position)</code></h5>
-                    <p>Queues HTML content (structure, components) for insertion into the document's
-                        <code>&lt;body&gt;</code> element.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// Prepend navigation (header)
-app.body('/components/navbar.html', 'b'); 
-// Append main view content
-app.body('/views/article.html', 'e');</pre>
-                    </div>
-
-                    <h5 id="api-script"><code>.script(file)</code></h5>
-                    <p>Queues a JavaScript file to be fetched, loaded, and executed. Scripts are guaranteed to run in
-                        the **order they are queued**.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// Library A must load first (dependency)
-app.script('/lib/jquery.js'); 
-// Application code that uses Library A loads second
-app.script('/app/main-logic.js');</pre>
-                    </div>
-
-                    <h5 id="api-load"><code>.load([callback])</code></h5>
-                    <p>The final, mandatory step. This method triggers the fetching of all queued assets and executes
-                        the optional <code>callback</code> function **only after all assets are loaded, inserted, and
-                        executed**.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-app.load(() => { 
-    console.log('Page is ready for interaction and data hydration.'); 
-});</pre>
-                    </div>
-
-                </section>
-
-                <section id="paint-api" class="doc-section">
-                    <h3>Global Utility: <code>window.paint</code> (Data Hydration)</h3>
-                    <p>The globally available <code>paint</code> object handles client-side data templating. It relies
-                        on the **<code>.use-painter</code> class** for selection and the **<code>painter-data</code>**
-                        attribute for key mapping.</p>
-
-                    <h4>Templating Syntax</h4>
-                    <p>The data key in your object will map to the <code>painter-data</code> attribute. The utility
-                        automatically handles attribute injection for tags like <code>&lt;a&gt;</code> (for
-                        <code>href</code>) and <code>&lt;img&gt;</code> (for <code>src</code>).</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-&lt;!-- Example Template --&gt;
-&lt;h2 class="use-painter" painter-data="userName"&gt;&lt;/h2&gt;
-&lt;a class="use-painter" painter-data="linkID" href="/details/"&gt;Details&lt;/a&gt;
-&lt;img class="use-painter" painter-data="avatarSrc" src=""&gt;
-</pre>
-                    </div>
-
-                    <h5 id="paint-obj"><code>paint.obj(data)</code></h5>
-                    <p>Populates a single HTML structure with values from a single JavaScript object. It searches the
-                        entire DOM for elements with <code>.use-painter</code>.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// Injects { userName: "Guest" } into the matching elements
-paint.obj({
-    userName: "Alex Doe",
-    linkID: "user-123", // Injects into href (Result: /details/user-123)
-    avatarSrc: "/img/alex.jpg" // Injects into img src
-});</pre>
-                    </div>
-
-                    <h5 id="paint-array"><code>paint.array(containerElement, dataArray)</code></h5>
-                    <p>Renders lists or collections. It clones the **first child** of the <code>containerElement</code>
-                        for every object in the <code>dataArray</code>.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// HTML: &lt;ul id="product-list"&gt; &lt;li&gt;...template...&lt;/li&gt; &lt;/ul&gt;
-
-app.load(() => {
-    const products = [{ name: "Pen", price: "$1" }, { name: "Book", price: "$5" }];
-    const container = document.getElementById('product-list');
+    console.log('Application structure assembled and ready!');
     
-    // Renders multiple list items based on the products array
-    paint.array(container, products);
-});</pre>
-                    </div>
-                </section>
-
-                <section id="usage-patterns" class="doc-section">
-                    <h3>Usage Patterns</h3>
-
-                    <h4>1. Data-Driven Component Loading (Hydration)</h4>
-                    <p>The standard pattern for loading data and components concurrently, then hydrating the component
-                        using <code>paint.obj()</code> inside the <code>.load()</code> callback.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// 1. Start data fetch (runs in parallel with oLoader's queues)
-const profilePromise = fetch('/api/user/1').then(res => res.json());
-
-// 2. Queue the component structure
-const app = oLoader();
-app.body('/components/profile-card.html', 'e');
-
-// 3. Execute and wait for assembly completion
-app.load(() => {
-    // 4. Wait for data to resolve before painting
-    profilePromise.then(userData => {
-        paint.obj({
-            userName: userData.name,
-            profileLink: `/users/${userData.id}` 
+    // ⭐ Use oG() to easily select elements and apply logic ⭐
+    
+    // Example 1: Attach an ifsubmit handler to the login form
+    oG('#login-form', (form) => {
+        // 'form' is the HTMLElement object
+        form.ifsubmit(({ data }) => {
+            console.log('Login attempt:', data);
         });
-        console.log('Profile card hydrated.');
     });
-});</pre>
-                    </div>
 
-                    <h4>2. Full Lifecycle Management (Simplified)</h4>
-                    <p>Managing loading indicators, assembly, and cleanup using synchronous logic before and after the
-                        <code>.load()</code> call.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-// Start the loader immediately (synchronous)
-document.getElementById('loading-spinner').style.display = 'block';
+    // Example 2: Load a dynamic component into a specific container
+    oG('#dashboard-container').put('/views/user-welcome.html', null, () => {
+        console.log('Welcome message loaded!');
+    });
+});</code></pre>
 
-const app = oLoader();
-app.body('/views/content.html', 'e'); 
+    <hr>
 
-// Execute assembly and run final cleanup when finished
-app.load(() => {
-    // Final initialization runs after everything is fully loaded and ready
-    document.getElementById('loading-spinner').style.display = 'none';
-    console.log('App ready, running final init.');
-});</pre>
-                    </div>
-                </section>
+    <h2>🎨 Data Hydration (<code>window.paint</code>)</h2>
 
-                <section id="examples" class="doc-section">
-                    <h3>Complex Examples</h3>
+    <p>The global <code>paint</code> utility is used to inject data into loaded HTML templates. It searches for elements marked with the <strong><code>.use-painter</code></strong> class and the <strong><code>painter-data</code></strong> attribute.</p>
 
-                    <h4>E-commerce Product Detail Page (PDP) Assembly</h4>
-                    <p>A full example showing assembly of multiple components and rendering a list (e.g., reviews) using
-                        <code>paint.array()</code>.</p>
-                    <div class="code-box">
-                        <pre class="skeleton-code">
-const app = oLoader();
-const productData = fetch('/api/product/xyz').then(res => res.json());
+    <h3>Templating</h3>
+    <p><code>paint</code> automatically targets attributes like <code>src</code> (for <code>&lt;img&gt;</code>) and <code>href</code> (for <code>&lt;a&gt;</code>). Otherwise, it updates <code>textContent</code>.</p>
 
-// Load all structures concurrently
-app.body('/components/pdp-header.html', 'b');
-app.body('/components/pdp-details.html', 'e');
-app.body('/components/pdp-reviews.html', 'e'); // This contains the review list template
+    <pre><code>&lt;div class="card"&gt;
+    &lt;h3 class="use-painter" painter-data="userName"&gt;&lt;/h3&gt;
+    
+    &lt;img class="use-painter" painter-data="avatarURL" src="" alt="Avatar"&gt;
+    
+    &lt;a class="use-painter" painter-data="profileID" href="/user/"&gt;View&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Hydrating the Data</h3>
+    <p>You typically call <code>paint.obj()</code> inside the <code>.load()</code> callback once data is available.</p>
+
+    <pre><code>// 1. Start fetching data concurrently
+const userData = fetch('/api/user/current').then(res => res.json());
 
 app.load(() => {
-    productData.then(data => {
-        // 1. Hydrate single-instance components (Header/Details)
+    userData.then(data => {
+        // Hydrate the structure with data
         paint.obj({
-            productTitle: data.title,
-            price: data.price
+            userName: data.name,
+            avatarURL: data.image_url,
+            profileID: data.id // The &lt;a&gt; href becomes /user/123
         });
-
-        // 2. Render review list (paint.array)
-        const reviewsContainer = document.getElementById('reviews-list');
-        paint.array(reviewsContainer, data.reviews);
-        
-        console.log('PDP fully loaded and displayed.');
     });
-});</pre>
-                    </div>
-                </section>
+});</code></pre>
 
-                <section id="releases" class="doc-section">
-                    <h3>Releases & Changelog</h3>
-                    <h4 id="version-100" style="color: var(--color-primary); margin-top: 20px;">v1.0.0 (Latest Stable) -
-                        October 18, 2025</h4>
+    <hr>
 
-                    <div
-                        style="background-color: var(--color-code-bg); padding: 15px; border-left: 5px solid var(--color-primary); margin-bottom: 30px;">
-                        <p style="font-weight: bold; margin-bottom: 5px;">Download:</p>
-                        <code>oloader.js</code> | <a href="https://github.com/ojiiis/oLoader"
-                            target="_blank">GitHub Release Page</a>
-                    </div>
+    <h2>📚 Core API Reference</h2>
 
-                    <h5 style="font-weight: bold; margin-bottom: 10px; color: green;">✨ New Features</h5>
-                    <ul>
-                        <li>Initial stable release.</li>
-                        <li>Introduced **Global Painter Utility** (<code>window.paint</code>) for data hydration using
-                            <code>.use-painter</code> and <code>painter-data</code> selectors.</li>
-                        <li>Script queuing mechanism guarantees **sequential execution**.</li>
-                    </ul>
+    <p>The API is divided into methods for initial assembly and methods available on all elements for dynamic runtime interactions.</p>
 
-                    <h5 style="font-weight: bold; margin-bottom: 10px; color: red;">⚠️ Breaking Changes</h5>
-                    <p>The Event Emitter API (<code>.on()</code>) was removed to maintain the module's core simplicity.
-                        All lifecycle actions must use the <code>.load(callback)</code> signature.</p>
+    <h3>Initial Assembly Methods (The <code>app</code> Instance)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Arguments</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong><code>oLoader()</code></strong></td>
+                <td><em>None</em></td>
+                <td>Initializes and returns the assembly instance (<code>app</code>).</td>
+            </tr>
+            <tr>
+                <td><strong><code>app.head(file, pos)</code></strong></td>
+                <td><code>string</code>, <code>string</code> ('b' or 'e')</td>
+                <td>Queues content for insertion into <code>&lt;head&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td><strong><code>app.body(file, pos)</code></strong></td>
+                <td><code>string</code>, <code>string</code> ('b' or 'e')</td>
+                <td>Queues content for insertion into <code>&lt;body&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td><strong><code>app.script(file)</code></strong></td>
+                <td><code>string</code></td>
+                <td>Queues a JS file for <strong>sequential execution</strong>.</td>
+            </tr>
+            <tr>
+                <td><strong><code>app.load(callback)</code></strong></td>
+                <td><code>function</code></td>
+                <td>Triggers fetching and runs the <code>callback</code> when <strong>all</strong> assets are ready.</td>
+            </tr>
+        </tbody>
+    </table>
 
-                    <hr style="border-top: 1px dashed #ccc; margin: 30px 0;">
-                </section>
+    <hr>
 
-                <section id="faq" class="doc-section">
-                    <h3>Frequently Asked Questions</h3>
+    <h3>Dynamic Element Methods (Available <strong>After</strong> <code>app.load()</code>)</h3>
+    <p>These methods are available on <strong>any HTML Element</strong> for managing runtime content updates and user interactions.</p>
 
-                    <div class="faq-item">
-                        <h4 style="margin-bottom: 5px; color: var(--color-primary);">Q: Is oLoader a replacement for
-                            tools like Webpack or Parcel?</h4>
-                        <p><strong>A:</strong> No. oLoader is a **runtime content assembler**, not a build-time bundler.
-                            It focuses on solving the problem of dynamic content and asset ordering *after* the page is
-                            loaded, ideal for static sites and component loading.</p>
-                    </div>
+    <h4>1. Dynamic Content: <code>element.put(file, [position], [callback])</code></h4>
+    <p>Asynchronously fetches content and inserts it into the target element. Returns a <code>Promise</code> and accepts an optional callback.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Position Value</th>
+                <th>Action</th>
+                <th>Clears Existing Content?</th>
+                <th>Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>(Omitted or <code>null</code>)</strong></td>
+                <td>Replaces the element's <strong>entire content</strong>.</td>
+                <td><strong>YES</strong></td>
+                <td><strong>Seamless State Transition</strong> (e.g., replacing a loading spinner).</td>
+            </tr>
+            <tr>
+                <td><strong><code>e</code></strong> (End/Clear)</td>
+                <td>Appends content to the end.</td>
+                <td><strong>YES</strong></td>
+                <td><strong>View Swapping</strong> (replacing the old view with a new one).</td>
+            </tr>
+            <tr>
+                <td><strong><code>E</code></strong> (End/No Clear)</td>
+                <td>Appends content to the end.</td>
+                <td>No</td>
+                <td><strong>Infinite Scroll/Pagination</strong> (adding more items).</td>
+            </tr>
+            <tr>
+                <td><strong><code>B</code></strong> (Begin/No Clear)</td>
+                <td>Prepends content to the beginning.</td>
+                <td>No</td>
+                <td>Inserting a new item at the top (e.g., new chat message).</td>
+            </tr>
+        </tbody>
+    </table>
 
-                    <div class="faq-item" style="margin-top: 20px;">
-                        <h4 style="margin-bottom: 5px; color: var(--color-primary);">Q: How do I handle initialization
-                            and cleanup?</h4>
-                        <p><strong>A:</strong> All initialization and cleanup logic should be placed directly inside the
-                            final callback of the <code>.load(callback)</code> method. Any setup that must run *before*
-                            fetching begins should be placed **before** the <code>app.load()</code> call in your script.
-                        </p>
-                    </div>
+    <h4>2. Form Handling: <code>element.ifsubmit(callback)</code></h4>
+    <p>Attaches a submit handler to the element (intended for a <code>&lt;form&gt;</code>). It <strong>prevents the default browser submission</strong> and collects all form data into a structured object for easy processing.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Callback Argument Key</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong><code>caller</code></strong></td>
+                <td><code>HTMLElement</code></td>
+                <td>The element (button) that initiated the submission.</td>
+            </tr>
+            <tr>
+                <td><strong><code>form</code></strong></td>
+                <td><code>HTMLElement</code></td>
+                <td>The form element itself.</td>
+            </tr>
+            <tr>
+                <td><strong><code>location</code></strong></td>
+                <td><code>string</code></td>
+                <td>The value of the form's <code>action</code> attribute.</td>
+            </tr>
+            <tr>
+                <td><strong><code>data</code></strong></td>
+                <td><code>Object</code></td>
+                <td>Key-value pairs of all form fields (e.g., <code>{ inputName: value }</code>).</td>
+            </tr>
+        </tbody>
+    </table>
 
-                    <div class="faq-item" style="margin-top: 20px;">
-                        <h4 style="margin-bottom: 5px; color: var(--color-primary);">Q: How does the <code>paint</code>
-                            utility handle image sources and links?</h4>
-                        <p><strong>A:</strong> When <code>paint.obj()</code> finds an element with
-                            <code>painter-data</code> that matches a data key, it automatically checks for applicable
-                            attributes: it sets the **<code>src</code>** attribute on <code>&lt;img&gt;</code> tags and
-                            the **<code>href</code>** attribute on <code>&lt;a&gt;</code> tags. If no special attribute
-                            is found, it defaults to setting the element's <code>textContent</code>.</p>
-                    </div>
-                </section>
-            </section>
-        </div>
-    </main>
+    <hr>
 
+    <h3>Global Utilities</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Arguments</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong><code>oG(selector, [callback])</code></strong></td>
+                <td><code>string</code>, <code>function</code></td>
+                <td><strong>The Element Selector.</strong> Retrieves element(s) based on a CSS selector. Returns a single <code>HTMLElement</code> for IDs or an <code>Array</code> for classes/tags. If a <code>callback</code> is provided, it executes the callback immediately on the element(s).</td>
+            </tr>
+            <tr>
+                <td><strong><code>paint.obj(data, [element])</code></strong></td>
+                <td><code>Object</code>, <code>HTMLElement</code></td>
+                <td>Hydrates the DOM using a single object. If <code>element</code> is provided, it scopes the search for <code>.use-painter</code> to that element.</td>
+            </tr>
+            <tr>
+                <td><strong><code>paint.array(container, array)</code></strong></td>
+                <td><code>HTMLElement</code>, <code>Array</code></td>
+                <td>Renders a list by cloning the container's first child for each item in the array.</td>
+            </tr>
+        </tbody>
+    </table>
 
+    <hr>
 
-    <script>
-        // Simple script to update the copyright year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <h2>🤝 Contributing</h2>
+    <p>We welcome contributions! Please read our <a href="https://www.google.com/search?q=CONTRIBUTING.md">CONTRIBUTING.md</a> for guidelines on submitting pull requests, reporting bugs, and suggesting features.</p>
 
-    </script>
+    <hr>
 
-    <script>
-        let loader = oLoader();
-        loader.head('/static/meta-data.html', 'e');
-        loader.body('/static/navigation.html', 'b');
-        loader.body('/static/footer.html', 'e');
-        loader.load(() => console.log('First oLoader Project'));
-    </script>
+    <h2>📜 License</h2>
+    <p>oLoader is <a href="https://www.google.com/search?q=LICENSE">Licensed under the MIT License</a>.</p>
+
 </body>
-
 </html>
